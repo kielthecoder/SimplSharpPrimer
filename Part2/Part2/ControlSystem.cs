@@ -4,11 +4,14 @@ using Crestron.SimplSharpPro;                       	// For Basic SIMPL#Pro clas
 using Crestron.SimplSharpPro.CrestronThread;        	// For Threading
 using Crestron.SimplSharpPro.Diagnostics;		    	// For System Monitor Access
 using Crestron.SimplSharpPro.DeviceSupport;         	// For Generic Device Support
+using Crestron.SimplSharpPro.UI;                        // For Touchpanels
 
 namespace Part2
 {
     public class ControlSystem : CrestronControlSystem
     {
+        private Tsw1060 _tsw;
+
         /// <summary>
         /// ControlSystem Constructor. Starting point for the SIMPL#Pro program.
         /// Use the constructor to:
@@ -57,12 +60,37 @@ namespace Part2
         {
             try
             {
-
+                _tsw = new Tsw1060(0x03, this);
+                _tsw.OnlineStatusChange += new OnlineStatusChangeEventHandler(_tsw_OnlineStatusChange);
+                _tsw.SigChange += new SigEventHandler(_tsw_SigChange);
             }
             catch (Exception e)
             {
                 ErrorLog.Error("Error in InitializeSystem: {0}", e.Message);
             }
+        }
+
+        void _tsw_SigChange(BasicTriList currentDevice, SigEventArgs args)
+        {
+            if (args.Sig.Number == 10)
+            {
+                if (args.Sig.BoolValue)
+                {
+                    currentDevice.StringInput[1].StringValue = "Hello world!";
+                }
+            }
+            if (args.Sig.Number == 11)
+            {
+                if (args.Sig.BoolValue)
+                {
+                    currentDevice.StringInput[1].StringValue = "";
+                }
+            }
+        }
+
+        void _tsw_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
