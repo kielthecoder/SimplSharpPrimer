@@ -1,7 +1,8 @@
 
-*.projectinfo
 *.cache
 *.pdb
+*.projectinfo
+*.suo
 Part1/Part1/bin
 Part1/Part1/obj
 Part1/Part1/Part1.projectinfo
