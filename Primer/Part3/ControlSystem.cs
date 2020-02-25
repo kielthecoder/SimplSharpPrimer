@@ -65,7 +65,7 @@ namespace Part3
         {
             if (args.DeviceOnLine)
             {
-                _tx.IROutputPorts[1].LoadIRDriver(Directory.GetApplicationDirectory() + Path.PathSeparator + "Samsung BD Series.ir");
+                (currentDevice as DmRmc4k100C).IROutputPorts[1].LoadIRDriver(Directory.GetApplicationDirectory() + Path.PathSeparator + "Samsung BD Series.ir");
             }
         }
 
@@ -73,7 +73,7 @@ namespace Part3
         {
             if (args.DeviceOnLine)
             {
-                _rx.ComPorts[1].SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
+                (currentDevice as DmRmc4k100C).ComPorts[1].SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
                     ComPort.eComDataBits.ComspecDataBits8, ComPort.eComParityType.ComspecParityNone, ComPort.eComStopBits.ComspecStopBits1,
                     ComPort.eComProtocolType.ComspecProtocolRS232, ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
                     ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone, false);
