@@ -71,7 +71,13 @@ namespace Part3
 
         void _rx_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
         {
-
+            if (args.DeviceOnLine)
+            {
+                _rx.ComPorts[1].SetComPortSpec(ComPort.eComBaudRates.ComspecBaudRate9600,
+                    ComPort.eComDataBits.ComspecDataBits8, ComPort.eComParityType.ComspecParityNone, ComPort.eComStopBits.ComspecStopBits1,
+                    ComPort.eComProtocolType.ComspecProtocolRS232, ComPort.eComHardwareHandshakeType.ComspecHardwareHandshakeNone,
+                    ComPort.eComSoftwareHandshakeType.ComspecSoftwareHandshakeNone, false);
+            }
         }
     }
 }
