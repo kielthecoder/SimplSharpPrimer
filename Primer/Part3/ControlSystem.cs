@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Crestron.SimplSharp;
+using Crestron.SimplSharp.CrestronIO;
 using Crestron.SimplSharpPro;
 using Crestron.SimplSharpPro.CrestronThread;
 using Crestron.SimplSharpPro.DeviceSupport;
@@ -58,12 +59,14 @@ namespace Part3
 
         void _sw_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
         {
-
         }
 
         void _tx_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
         {
-
+            if (args.DeviceOnLine)
+            {
+                _tx.IROutputPorts[1].LoadIRDriver(Directory.GetApplicationDirectory() + Path.PathSeparator + "Samsung BD Series.ir");
+            }
         }
 
         void _rx_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
