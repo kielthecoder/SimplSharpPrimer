@@ -13,3 +13,5 @@ Primer/Part3/bin
 Primer/Part3/obj
 Primer/Part3/Part3.projectinfo
 *.ASV
+*.vtz
+*.hash
