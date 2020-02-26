@@ -59,13 +59,23 @@ namespace Part3
                 // Display controls
                 if (args.Sig.Number > 20 && args.Sig.Number < 30)
                 {
+                    _tp_DisplayControl(currentDevice, args.Sig.Number - 20, args.Sig.BoolValue);
                 }
 
                 // Blu-ray controls
                 if (args.Sig.Number > 30 && args.Sig.Number < 50)
                 {
+                    _tp_BluRayControl(currentDevice, args.Sig.Number - 30, args.Sig.BoolValue);
                 }
             }
+        }
+
+        void _tp_DisplayControl(BasicTriList device, uint number, bool value)
+        {
+        }
+
+        void _tp_BluRayControl(BasicTriList device, uint number, bool value)
+        {
         }
 
         void _sw_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
