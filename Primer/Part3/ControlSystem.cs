@@ -54,7 +54,54 @@ namespace Part3
 
         void _tp_SigChange(BasicTriList currentDevice, SigEventArgs args)
         {
+            if (args.Sig.Type == eSigType.Bool)
+            {
+                // Display controls
+                if (args.Sig.Number > 20 && args.Sig.Number < 30)
+                {
+                    _tp_DisplayControl(currentDevice, args.Sig.Number - 20, args.Sig.BoolValue);
+                }
 
+                // Blu-ray controls
+                if (args.Sig.Number > 30 && args.Sig.Number < 50)
+                {
+                    _tp_BluRayControl(currentDevice, args.Sig.Number - 30, args.Sig.BoolValue);
+                }
+            }
+        }
+
+        void _tp_DisplayControl(BasicTriList device, uint number, bool value)
+        {
+            if (value)
+            {
+                switch (number)
+                {
+                    case 1: // Power On
+                        _rx.ComPorts[1].Send("\xAA\x11\x01\x01\x01\x14");
+                        break;
+                    case 2: // Power Off
+                        _rx.ComPorts[1].Send("\xAA\x11\x01\x01\x00\x13");
+                        break;
+                    case 3: // HDMI
+                        _rx.ComPorts[1].Send("\xAA\x14\x01\x01\x21\x37");
+                        break;
+                }
+            }
+        }
+
+        void _tp_BluRayControl(BasicTriList device, uint number, bool value)
+        {
+            string[] commands = {
+                "",
+                "PLAY", "STOP", "PAUSE",
+                "RSCAN", "FSCAN", "TRACK-", "TRACK+",
+                "UP_ARROW", "DN_ARROW", "LEFT_ARROW", "RIGHT_ARROW", "ENTER/SELECT"
+            };
+
+            if (value)
+                _tx.IROutputPorts[1].Press(commands[number]);
+            else
+                _tx.IROutputPorts[1].Release();
         }
 
         void _sw_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
