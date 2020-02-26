@@ -91,36 +91,17 @@ namespace Part3
 
         void _tp_BluRayControl(BasicTriList device, uint number, bool value)
         {
+            string[] commands = {
+                "",
+                "PLAY", "STOP", "PAUSE",
+                "RSCAN", "FSCAN", "TRACK-", "TRACK+",
+                "UP_ARROW", "DN_ARROW", "LEFT_ARROW", "RIGHT_ARROW", "ENTER/SELECT"
+            };
+
             if (value)
-            {
-                switch (number)
-                {
-                    case 1: // Play
-                        break;
-                    case 2: // Stop
-                        break;
-                    case 3: // Pause
-                        break;
-                    case 4: // Rewind
-                        break;
-                    case 5: // Fast Forward
-                        break;
-                    case 6: // Previous
-                        break;
-                    case 7: // Next
-                        break;
-                    case 8: // Cursor Up
-                        break;
-                    case 9: // Cursor Down
-                        break;
-                    case 10: // Cursor Left
-                        break;
-                    case 11: // Cursor Right
-                        break;
-                    case 12: // OK
-                        break;
-                }
-            }
+                _tx.IROutputPorts[1].Press(commands[number]);
+            else
+                _tx.IROutputPorts[1].Release();
         }
 
         void _sw_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
