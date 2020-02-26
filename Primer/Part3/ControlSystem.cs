@@ -77,13 +77,13 @@ namespace Part3
                 switch (number)
                 {
                     case 1: // Power On
-                        _rx.ComPorts[1].Send("");
+                        _rx.ComPorts[1].Send("\xAA\x11\x01\x01\x01\x14");
                         break;
                     case 2: // Power Off
-                        _rx.ComPorts[1].Send("");
+                        _rx.ComPorts[1].Send("\xAA\x11\x01\x01\x00\x13");
                         break;
                     case 3: // HDMI
-                        _rx.ComPorts[1].Send("");
+                        _rx.ComPorts[1].Send("\xAA\x14\x01\x01\x21\x37");
                         break;
                 }
             }
