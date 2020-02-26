@@ -54,7 +54,18 @@ namespace Part3
 
         void _tp_SigChange(BasicTriList currentDevice, SigEventArgs args)
         {
+            if (args.Sig.Type == eSigType.Bool)
+            {
+                // Display controls
+                if (args.Sig.Number > 20 && args.Sig.Number < 30)
+                {
+                }
 
+                // Blu-ray controls
+                if (args.Sig.Number > 30 && args.Sig.Number < 50)
+                {
+                }
+            }
         }
 
         void _sw_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
