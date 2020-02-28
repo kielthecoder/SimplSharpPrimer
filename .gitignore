@@ -1,8 +1,10 @@
-
+*.ASV
 *.cache
+*.hash
 *.pdb
 *.projectinfo
 *.suo
+*.vtz
 Part1/Part1/bin
 Part1/Part1/obj
 Part1/Part1/Part1.projectinfo
@@ -12,6 +14,6 @@ Part2/Part2/Part2.projectinfo
 Primer/Part3/bin
 Primer/Part3/obj
 Primer/Part3/Part3.projectinfo
-*.ASV
-*.vtz
-*.hash
+Primer/Part4/bin
+Primer/Part4/obj
+Primer/Part4/Part4.projectinfo
