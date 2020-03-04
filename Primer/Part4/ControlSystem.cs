@@ -4,19 +4,11 @@ using Crestron.SimplSharpPro;
 using Crestron.SimplSharpPro.CrestronThread;
 using Crestron.SimplSharpPro.Diagnostics;
 using Crestron.SimplSharpPro.DeviceSupport;
-using Crestron.SimplSharpPro.DM;
-using Crestron.SimplSharpPro.DM.Cards;
-using Crestron.SimplSharpPro.DM.Endpoints;
-using Crestron.SimplSharpPro.DM.Endpoints.Receivers;
-using Crestron.SimplSharpPro.DM.Endpoints.Transmitters;
 
 namespace Part4
 {
     public class ControlSystem : CrestronControlSystem
     {
-        private DmRmcScalerC _rmc;
-        private DmTx200C2G _tx;
-
         public ControlSystem()
             : base()
         {
@@ -34,13 +26,12 @@ namespace Part4
         {
             try
             {
-                _rmc = new DmRmcScalerC(0x14, SwitcherOutputs[3] as DMOutput);
-                _rmc.OnlineStatusChange += new OnlineStatusChangeEventHandler(_debug_OnlineStatusChange);
-                _rmc.Register();
-
-                _tx = new DmTx200C2G(0x15, SwitcherInputs[6] as DMInput);
-                _tx.OnlineStatusChange += new OnlineStatusChangeEventHandler(_debug_OnlineStatusChange);
-                _tx.Register();
+                if (!CrestronConsole.AddNewConsoleCommand(ControlSystemInfo,
+                    "controllerinfo", "Print information about this control system",
+                    ConsoleAccessLevelEnum.AccessOperator))
+                {
+                    ErrorLog.Error("Unable to add 'controllerinfo' command to console");
+                }
             }
             catch (Exception e)
             {
@@ -48,9 +39,14 @@ namespace Part4
             }
         }
 
-        void _debug_OnlineStatusChange(GenericBase currentDevice, OnlineOfflineEventArgs args)
+        public void ControlSystemInfo(string parms)
         {
-            CrestronConsole.PrintLine("{0} is {1}", currentDevice, args);
+            CrestronConsole.PrintLine("Number of serial ports:     {0}", this.NumberOfComPorts);
+            CrestronConsole.PrintLine("Number of IR ports:         {0}", this.NumberOfIROutputPorts);
+            CrestronConsole.PrintLine("Number of relay ports:      {0}", this.NumberOfRelayPorts);
+            CrestronConsole.PrintLine("Number of versiports:       {0}", this.NumberOfVersiPorts);
+            CrestronConsole.PrintLine("Number of switcher inputs:  {0}", this.NumberOfSwitcherInputs);
+            CrestronConsole.PrintLine("Number of switcher outputs: {0}", this.NumberOfSwitcherOutputs);
         }
     }
 }
