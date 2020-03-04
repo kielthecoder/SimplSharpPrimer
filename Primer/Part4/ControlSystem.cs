@@ -41,12 +41,36 @@ namespace Part4
 
         public void ControlSystemInfo(string parms)
         {
-            CrestronConsole.PrintLine("Number of serial ports:     {0}", this.NumberOfComPorts);
-            CrestronConsole.PrintLine("Number of IR ports:         {0}", this.NumberOfIROutputPorts);
-            CrestronConsole.PrintLine("Number of relay ports:      {0}", this.NumberOfRelayPorts);
-            CrestronConsole.PrintLine("Number of versiports:       {0}", this.NumberOfVersiPorts);
-            CrestronConsole.PrintLine("Number of switcher inputs:  {0}", this.NumberOfSwitcherInputs);
-            CrestronConsole.PrintLine("Number of switcher outputs: {0}", this.NumberOfSwitcherOutputs);
+            if (parms == "?")
+            {
+                CrestronConsole.ConsoleCommandResponse("CONTROLLERINFO\n\r\tNo parameters needed.\n\r");
+            }
+            else
+            {
+                CrestronConsole.ConsoleCommandResponse("Controller prompt:        {0}\n\r", this.ControllerPrompt);
+                CrestronConsole.ConsoleCommandResponse("Number of serial ports:   {0}\n\r", this.NumberOfComPorts);
+                CrestronConsole.ConsoleCommandResponse("Number of IR ports:       {0}\n\r", this.NumberOfIROutputPorts);
+
+                if (this.SupportsRelay)
+                    CrestronConsole.ConsoleCommandResponse("Number of relay ports:    {0}\n\r", this.NumberOfRelayPorts);
+                if (this.SupportsDigitalInput)
+                    CrestronConsole.ConsoleCommandResponse("Number of digital inputs: {0}\n\r", this.NumberOfDigitalInputPorts);
+                if (this.SupportsVersiport)
+                    CrestronConsole.ConsoleCommandResponse("Number of versiports:     {0}\n\r", this.NumberOfVersiPorts);
+
+                CrestronConsole.ConsoleCommandResponse("Internal RF Gateway:      {0}\n\r", this.SupportsInternalRFGateway ? "YES" : "NO");
+
+                // Check if built-in DM switcher
+                if (this.SystemControl != null)
+                {
+                    CrestronConsole.ConsoleCommandResponse("System ID: {0}\n\r", this.SystemControl.SystemId);
+
+                    if (this.SupportsSwitcherInputs)
+                        CrestronConsole.ConsoleCommandResponse("Number of switcher inputs:  {0}\n\r", this.NumberOfSwitcherInputs);
+                    if (this.SupportsSwitcherOutputs)
+                        CrestronConsole.ConsoleCommandResponse("Number of switcher outputs: {0}\n\r", this.NumberOfSwitcherOutputs);
+                }
+            }
         }
     }
 }
