@@ -26,7 +26,16 @@ namespace Part5
         {
             try
             {
+                // Currently only runs on DMPS architecture
+                if (this.SystemControl == null)
+                {
+                    // Eventually we'll handle external switchers, too
+                    ErrorLog.Error("Sorry, this program only runs on DMPS3 processors!");
+                }
+                else
+                {
 
+                }
             }
             catch (Exception e)
             {
