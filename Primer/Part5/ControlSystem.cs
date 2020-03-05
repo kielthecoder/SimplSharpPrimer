@@ -39,7 +39,7 @@ namespace Part5
                     // Eventually we'll handle external switchers, too
                     ErrorLog.Error("Sorry, this program only runs on DMPS3 processors!");
                 }
-                else if (this.SystemControl.SystemControlType == eSystemControlType.Dmps3SystemControl)
+                else
                 {
                     // Assume DM transmitter is connected to DM input 6
                     //_tx1 = new DmTx4k202C(0x14, this.SwitcherInputs[6] as DMInput);
@@ -51,10 +51,6 @@ namespace Part5
                     _tx1.VgaInput.VideoAttributes.AttributeChange += new GenericEventHandler(tx_VideoAttributeChange);
                     //_tx1.HdmiInputs[1].InputStreamChange += new EndpointInputStreamChangeEventHandler(tx_InputStreamChange);
                     //_tx1.HdmiInputs[2].InputStreamChange += new EndpointInputStreamChangeEventHandler(tx_InputStreamChange);
-                }
-                else
-                {
-                    ErrorLog.Error("Sorry, don't recognize this control system type!");
                 }
             }
             catch (Exception e)
