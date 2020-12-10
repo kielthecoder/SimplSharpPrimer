@@ -2,11 +2,15 @@ using System;
 using Crestron.SimplSharp;
 using Crestron.SimplSharpPro;
 using Crestron.SimplSharpPro.CrestronThread;
+using Crestron.SimplSharpPro.DeviceSupport;
+using Crestron.SimplSharpPro.UI;
 
 namespace Part7
 {
     public class ControlSystem : CrestronControlSystem
     {
+        private XpanelForSmartGraphics _tp;
+
         public ControlSystem()
             : base()
         {
@@ -24,7 +28,12 @@ namespace Part7
         {
             try
             {
+                _tp = new XpanelForSmartGraphics(0x03, this);
 
+                var result = _tp.Register();
+
+                if (result != eDeviceRegistrationUnRegistrationResponse.Success)
+                    ErrorLog.Warn("Problem registering XPanel: {0}", result);
             }
             catch (Exception e)
             {
