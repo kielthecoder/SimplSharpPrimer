@@ -30,7 +30,8 @@ namespace Part7
             try
             {
                 _tp = new XpanelForSmartGraphics(0x03, this);
-                _tp.LoadSmartObjects(Directory.GetApplicationDirectory() + Path.DirectorySeparatorChar + "SG Primer XPANEL.sgd");
+                _tp.LoadSmartObjects(Directory.GetApplicationDirectory() +
+                    Path.DirectorySeparatorChar + "SG Primer XPANEL.sgd");
 
                 var result = _tp.Register();
 
