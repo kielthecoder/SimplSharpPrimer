@@ -4,7 +4,7 @@ Sgntr=SGD
 RelVrs=3
 VTProeVer=6.2.01
 Schema=1
-CRCGUID=5CB0CD03-9088-4DB9-9F68-BB1B4C97ED9E
+CRCGUID=957EE686-8427-4A41-ADF8-FD6224586131
 ]
 ;================================================================================
 [
@@ -26,10 +26,10 @@ SMWRev=4.02.19
 Expand=expand_random
 HelpID=10032
 ;Define the number of inputs, outputs and parameters
-MinVariableInputs=4
-MaxVariableInputs=4
-MinVariableOutputs=4
-MaxVariableOutputs=4
+MinVariableInputs=3
+MaxVariableInputs=3
+MinVariableOutputs=3
+MaxVariableOutputs=3
 NumFixedParams=1
 MinVariableInputsList2=6
 MaxVariableInputsList2=6
@@ -52,10 +52,6 @@ InputCue3=[~UNUSED3~]
 InputSigType3=Digital
 OutputCue3=Item 3 Pressed
 OutputSigType3=Digital
-InputCue4=[~UNUSED3~]
-InputSigType4=Digital
-OutputCue4=Item 4 Pressed
-OutputSigType4=Digital
 InputList2Cue1=Select Item
 InputList2SigType1=Analog
 OutputList2Cue1=[~UNUSED3~]
