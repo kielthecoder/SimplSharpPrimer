@@ -30,8 +30,10 @@ namespace Part7
             try
             {
                 _tp = new XpanelForSmartGraphics(0x03, this);
-                _tp.LoadSmartObjects(Directory.GetApplicationDirectory() +
-                    Path.DirectorySeparatorChar + "SG Primer XPANEL.sgd");
+                /*_tp.LoadSmartObjects(Directory.GetApplicationDirectory() +
+                    Path.DirectorySeparatorChar + "SG Primer XPANEL.sgd");*/
+
+                _tp.SmartObjects[1].SigChange += _tp_MenuSigChange;
 
                 var result = _tp.Register();
 
@@ -44,5 +46,9 @@ namespace Part7
             }
         }
 
+        private void _tp_MenuSigChange(GenericBase dev, SmartObjectEventArgs args)
+        {
+            CrestronConsole.PrintLine("{0}: {1}", args.Sig.Type, args.Sig.Name);
+        }
     }
 }
