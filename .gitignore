@@ -8,3 +8,5 @@ obj/
 *.projectinfo
 *.suo
 *.vtz
+*.air
+*.exe
