@@ -11,6 +11,7 @@ namespace Part7
     public class ControlSystem : CrestronControlSystem
     {
         private XpanelForSmartGraphics _tp;
+        private ushort _menu;
 
         public ControlSystem()
             : base()
@@ -30,8 +31,8 @@ namespace Part7
             try
             {
                 _tp = new XpanelForSmartGraphics(0x03, this);
-                /*_tp.LoadSmartObjects(Directory.GetApplicationDirectory() +
-                    Path.DirectorySeparatorChar + "SG Primer XPANEL.sgd");*/
+                _tp.LoadSmartObjects(Directory.GetApplicationDirectory() +
+                    Path.DirectorySeparatorChar + "SG Primer XPANEL.sgd");
 
                 _tp.SmartObjects[1].SigChange += _tp_MenuSigChange;
 
@@ -48,7 +49,18 @@ namespace Part7
 
         private void _tp_MenuSigChange(GenericBase dev, SmartObjectEventArgs args)
         {
-            CrestronConsole.PrintLine("{0}: {1}", args.Sig.Type, args.Sig.Name);
+            if (args.Sig.Name == "Item Clicked")
+            {
+                _menu = args.Sig.UShortValue;
+                _tp_UpdateMenu();
+            }
+        }
+
+        private void _tp_UpdateMenu()
+        {
+            _tp.BooleanInput[21].BoolValue = (_menu == 1);  // Video Call
+            _tp.BooleanInput[22].BoolValue = (_menu == 2);  // Presentation
+            _tp.BooleanInput[23].BoolValue = (_menu == 3);  // Lights
         }
     }
 }
