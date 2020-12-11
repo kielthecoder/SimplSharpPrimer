@@ -136,7 +136,7 @@ namespace Part7
 
         private object _tp_Tilt(short dir)
         {
-            while (_tilt >= -100 && _tilt <= 100)
+            while (true)
             {
                 if (dir < 0) // Down
                 {
@@ -162,7 +162,7 @@ namespace Part7
 
         private object _tp_Pan(short dir)
         {
-            while (_pan >= -180 && _pan <= 180)
+            while (true)
             {
                 if (dir < 0) // Left
                 {
