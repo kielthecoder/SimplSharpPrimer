@@ -11,8 +11,11 @@ namespace Part7
     public class ControlSystem : CrestronControlSystem
     {
         private XpanelForSmartGraphics _tp;
+        private Thread _ramp;
         private ushort _menu;
         private string _dialString;
+        private short _pan;
+        private short _tilt;
 
         public ControlSystem()
             : base()
@@ -39,6 +42,7 @@ namespace Part7
 
                 _tp.SmartObjects[1].SigChange += _tp_MenuSigChange;
                 _tp.SmartObjects[2].SigChange += _tp_KeypadSigChange;
+                _tp.SmartObjects[3].SigChange += _tp_DPadSigChange;
 
                 var result = _tp.Register();
 
@@ -69,7 +73,7 @@ namespace Part7
 
         private void _tp_KeypadSigChange(GenericBase dev, SmartObjectEventArgs args)
         {
-            if (args.Sig.BoolValue) // Button press
+            if (args.Sig.BoolValue) // Press
             {
                 if (_dialString.Length < 50) 
                 {
@@ -88,6 +92,98 @@ namespace Part7
         private void _tp_UpdateDialString()
         {
             _tp.StringInput[11].StringValue = _dialString;
+        }
+
+        private void _tp_DPadSigChange(GenericBase dev, SmartObjectEventArgs args)
+        {
+            if (args.Sig.BoolValue) // Press
+            {
+                if (args.Sig.Name == "Center")
+                {
+                    _pan = 0;
+                    _tilt = 0;
+                }
+                else if (args.Sig.Name == "Up")
+                {
+                    _ramp = new Thread(o => { return _tp_Tilt(1); }, null);
+                }
+                else if (args.Sig.Name == "Down")
+                {
+                    _ramp = new Thread(o => { return _tp_Tilt(-1); }, null);
+                }
+                else if (args.Sig.Name == "Left")
+                {
+                    _ramp = new Thread(o => { return _tp_Pan(-1); }, null);
+                }
+                else if (args.Sig.Name == "Right")
+                {
+                    _ramp = new Thread(o => { return _tp_Pan(1); }, null);
+                }
+            }
+            else // Release
+            {
+                if (args.Sig.Name == "Center")
+                {
+                    // nothing
+                }
+                else
+                {
+                    if (_ramp != null)
+                        _ramp.Abort();
+                }
+            }
+        }
+
+        private object _tp_Tilt(short dir)
+        {
+            while (_tilt >= -100 && _tilt <= 100)
+            {
+                if (dir < 0) // Down
+                {
+                    if (_tilt > -100)
+                        _tilt--;
+                    else
+                        break;
+                }
+                else // Up
+                {
+                    if (_tilt < 100)
+                        _tilt++;
+                    else
+                        break;
+                }
+
+                CrestronConsole.PrintLine("Pan: {0}\tTilt: {1}", _pan, _tilt);
+                Thread.Sleep(50);
+            }
+
+            return null;
+        }
+
+        private object _tp_Pan(short dir)
+        {
+            while (_pan >= -180 && _pan <= 180)
+            {
+                if (dir < 0) // Left
+                {
+                    if (_pan > -180)
+                        _pan--;
+                    else
+                        break;
+                }
+                else // Right
+                {
+                    if (_pan < 180)
+                        _pan++;
+                    else
+                        break;
+                }
+
+                CrestronConsole.PrintLine("Pan: {0}\tTilt: {1}", _pan, _tilt);
+                Thread.Sleep(50);
+            }
+
+            return null;
         }
     }
 }
