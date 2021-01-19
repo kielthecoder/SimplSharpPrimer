@@ -112,7 +112,7 @@ namespace Part3
         {
             if (args.DeviceOnLine)
             {
-                (currentDevice as DmRmc4k100C).IROutputPorts[1].LoadIRDriver(Directory.GetApplicationDirectory() + Path.PathSeparator + "Samsung BD Series.ir");
+                (currentDevice as DmTx4K100C1G).IROutputPorts[1].LoadIRDriver(Directory.GetApplicationDirectory() + Path.PathSeparator + "Samsung BD Series.ir");
             }
         }
 
